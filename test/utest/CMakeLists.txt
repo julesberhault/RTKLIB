@@ -15,7 +15,16 @@ if(WIN32)
     endif()
 else()
     set(MATH_LIBS m)
-    set(LINALG_LIBS lapack blas)
+    # Try to find BLAS and LAPACK on Unix/Linux
+    find_package(BLAS QUIET)
+    find_package(LAPACK QUIET)
+    if(BLAS_FOUND AND LAPACK_FOUND)
+        set(LINALG_LIBS ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
+    else()
+        # Fall back to standard library names if find_package fails
+        set(LINALG_LIBS lapack blas)
+        message(WARNING "Using standard BLAS/LAPACK library names. Install liblapack-dev and libblas-dev if build fails.")
+    endif()
 endif()
 
 set(RTKLBI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../src)

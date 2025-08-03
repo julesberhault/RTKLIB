@@ -30,6 +30,28 @@ WINDOWS/LINUX CLI & GUI (except for Embarcadero GUI) using CMake
  > make
 
 
+WINDOWS: To build with MSVC and Qt using CMake
+
+Requirements:
+- CMake 3.16 or later
+- Microsoft Visual Studio with MSVC compiler
+- Qt 5.15+ or Qt 6.x
+
+1) Open Developer Command Prompt for VS
+2) Create and enter build directory:
+ > mkdir build
+ > cd build
+3) Configure with CMake (adjust Qt path as needed):
+ > cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="C:\Qt\5.15.2\msvc2019_64" -DDLL=OFF
+4) Build the project:
+ > cmake --build .
+
+Build options:
+- Use -DDLL=ON for shared library build (default)  
+- Use -DDLL=OFF for static library build (recommended for Windows distribution)
+- Qt applications will be built automatically if Qt is found
+
+
 LINUX: To build and install code (DEPRECATED)
 
 CUIs:
