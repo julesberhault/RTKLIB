@@ -38,6 +38,11 @@ target_link_libraries(rtkget_qt PRIVATE
         Qt${QT_VERSION_MAJOR}::Gui
         Qt${QT_VERSION_MAJOR}::Widgets)
 
+# Add Windows system libraries if on Windows
+if(WIN32)
+    target_link_libraries(rtkget_qt PRIVATE wsock32 ws2_32 winmm)
+endif()
+
 set_target_properties(rtkget_qt PROPERTIES
     WIN32_EXECUTABLE ON
     MACOSX_BUNDLE ON

@@ -71,6 +71,16 @@ endif()
 
 if(WIN32)
 	add_definitions(-DWIN32)
+	
+	# Define Windows system libraries needed by RTKLIB applications
+	set(WIN32_SYSTEM_LIBS wsock32 ws2_32 winmm)
+	
+	# Helper function to add Windows libraries to Qt applications
+	function(add_windows_libs_to_qt_target target_name)
+		if(WIN32)
+			target_link_libraries(${target_name} PRIVATE ${WIN32_SYSTEM_LIBS})
+		endif()
+	endfunction()
 endif()
 
 #add_subdirectory(appcmn_qt)
