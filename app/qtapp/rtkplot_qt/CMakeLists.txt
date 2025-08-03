@@ -85,6 +85,11 @@ else()
   endif()
 endif()
 
+# Add Windows system libraries if on Windows
+if(WIN32)
+    target_link_libraries(rtkplot_qt PRIVATE wsock32 ws2_32 winmm)
+endif()
+
 
 set_target_properties(rtkplot_qt PROPERTIES
     WIN32_EXECUTABLE ON

@@ -20,6 +20,26 @@ set(TEST_DATA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/test/data)
 # configure rtklib
 add_definitions(-DENAGLO -DENAQZS -DENACMP -DENAGAL -DENAIRN -DNFREQ=3 -DNEXOBS=3 -DTRACE -DSVR_REUSEADDR)
 
+# Windows and MSVC specific configuration
+if(WIN32)
+    if(MSVC)
+        # MSVC specific flags
+        add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS)
+        # Disable specific warnings that are common in RTKLIB
+        add_compile_options(/wd4244 /wd4267 /wd4305 /wd4996 /wd4101)
+        # Use static runtime for better compatibility
+        set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    endif()
+    
+    # Windows-specific definitions
+    add_definitions(-DWIN32 -D_WINDOWS)
+    
+    # Set subsystem to console by default (can be overridden by individual targets)
+    if(MSVC)
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:CONSOLE")
+    endif()
+endif()
+
 
 # 3rd party libs
 add_subdirectory(lib)
